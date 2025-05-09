@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen bg-lime-500 flex md:justify-center justify-start md:items-center items-start md:ml-0 ml-8 md:mt-0 mt-12">
+    <div class="bg-white shadow-lg rounded-lg p-8 md:w-96 w-72 h-[400px] text-center">
+        <h1 class="text-3xl font-bold text-blue-600 mb-6">Promotex Exchange Rate</h1>
+        <form class="space-y-4">
+            <input 
+                type="number" 
+                id="amount" 
+                placeholder="Enter Amount in USD" 
+                class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+            <input 
+                type="button" 
+                value="Check Rate" 
+                id="check" 
+                class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 cursor-pointer"
+            >
+        </form>
+        <!-- <div class="flex justify-center items-center mt-4">
+            <div class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div> -->
+        </div>
+        <div id="result" class="mt-4 space-y-2">
+            <div id="dollar" class="text-lg font-semibold text-green-700"></div>
+            <div id="naira" class="text-lg font-semibold text-gray-700"></div>
+            <div id="euro" class="text-lg font-semibold text-slate-700"></div>
+            <div id="pound" class="text-lg font-semibold text-slate-700"></div>
+        </div>
+    </div>
+    
+    <script>
+        let btn = document.querySelector("#check");
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            let amount = document.getElementById("amount").value;
+            fetch("https://open.er-api.com/v6/latest/USD").then((response) => response.json()).then((data) => {
+                document.getElementById("dollar").innerText = `Dollar $ ${amount}`
+                document.getElementById("naira").innerText = `Naira ₦ ${data.rates.NGN*amount}`;
+                document.getElementById("euro").innerText = `Euro € ${data.rates.EUR *amount}`;
+                document.getElementById("pound").innerText = `Pounds £  ${data.rates.GBP *amount}`;
+            });
+        })
+    </script>
+</body>
+</html>
